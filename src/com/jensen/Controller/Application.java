@@ -13,7 +13,6 @@ import com.jensen.Model.Employee;
 public class Application {
 	private ConnectionManager connectionManager;
 	private EmployeeManager employeeManager;
-	private Handler handler;
 	private ViewManager viewManager;
 	private QueryManager queryManager;
 	
@@ -29,13 +28,10 @@ public class Application {
 		viewManager = new ViewManager();
 		queryManager = new QueryManager(connectionManager.getConnection(), viewManager.getTableModel());
 		employeeManager = new EmployeeManager(queryManager);
-		handler = new Handler(connectionManager.getConnection());
 		addActionListeners();
 		viewManager.initDefaultGUI();
 	}
 	
-
-
 	/* The Dialog for creating a new Employee */
 	private void showAddEmployeeDialog() {
 		JTextField fnameField = new JTextField(5);
@@ -148,16 +144,17 @@ public class Application {
 			buttonRight.get(i).addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					if (event.getSource() == buttonRight.get(0)) {
-						handler.getAllLocation();
-						handler.getEmployeeByLocation(JOptionPane.showInputDialog("Select location:"));
+						queryManager.getAllLocation();
+						queryManager.getEmployeeByLocation(JOptionPane.showInputDialog("Select location:"));
 					} else if (event.getSource() == buttonRight.get(1)) {
-						handler.getAllRole();
-						handler.getEmployeeByRole(JOptionPane.showInputDialog("Select Role:"));
+						queryManager.getAllRole();
+						queryManager.getEmployeeByRole(JOptionPane.showInputDialog("Select Role:"));
 					} else if (event.getSource() == buttonRight.get(2)) {
-						handler.getAllSkills();
-						handler.getEmployeeBySkill(JOptionPane.showInputDialog("Select Skills:"));
+						queryManager.getAllSkills();
+						queryManager.getEmployeeBySkill(JOptionPane.showInputDialog("Select Skills:"));
 					} else if (event.getSource() == buttonRight.get(3)) {
-						handler.getEmployeeByName(JOptionPane.showInputDialog("Search"));
+						queryManager.showAllEmployee();
+						queryManager.getEmployeeByName(JOptionPane.showInputDialog("Search"));
 					}
 				}
 			});
