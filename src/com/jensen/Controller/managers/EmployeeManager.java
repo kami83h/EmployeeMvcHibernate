@@ -1,12 +1,14 @@
 package com.jensen.Controller.managers;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.jensen.Model.Employee;
-
-import java.awt.*;
-import java.sql.*;
+import com.jensen.Model.Skill;
 
 public class EmployeeManager extends JFrame{
 	/**
@@ -25,9 +27,13 @@ public class EmployeeManager extends JFrame{
 			JOptionPane.showMessageDialog(null, "Number is not allowed, try again.");
 		} 
 		else {
+			Date date = new Date();
+			
+			
 			Employee employee = new Employee(queryManager.generateId(), fname, lname, Integer.parseInt(location),
-					Integer.parseInt(role));
-			queryManager.insertInto(employee,skill);
+					Integer.parseInt(role),date);
+			Skill skills = new Skill(Integer.parseInt(skill));
+			queryManager.insertInto(employee,skills);
 			queryManager.showAllEmployee();
 		}
 	}
@@ -47,7 +53,7 @@ public class EmployeeManager extends JFrame{
 	public void updateEmployee(String id, String fn) {
 		
 		Employee employee = new Employee(Integer.parseInt(id), fn);
-		System.out.println(employee.getFirstname());
+		
 		queryManager.updateEmployee(employee);
 		queryManager.getAllRowsOnlyName();
 	}

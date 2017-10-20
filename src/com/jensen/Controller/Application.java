@@ -15,7 +15,7 @@ public class Application {
 	private EmployeeManager employeeManager;
 	private ViewManager viewManager;
 	private QueryManager queryManager;
-	
+
 
 	public Application() {
 		init();
@@ -26,12 +26,12 @@ public class Application {
 	public void init() {
 		connectionManager = new ConnectionManager();
 		viewManager = new ViewManager();
-		queryManager = new QueryManager(connectionManager.getConnection(), viewManager.getTableModel());
+		queryManager = new QueryManager(connectionManager.getConnection(), viewManager.getTableModel(), connectionManager.getSession());
 		employeeManager = new EmployeeManager(queryManager);
 		addActionListeners();
 		viewManager.initDefaultGUI();
 	}
-	
+
 	/* The Dialog for creating a new Employee */
 	private void showAddEmployeeDialog() {
 		JTextField fnameField = new JTextField(5);

@@ -1,24 +1,43 @@
 package com.jensen.Controller.managers;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.criteria.CriteriaQuery;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.Criteria;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+
 import com.jensen.Model.Employee;
+import com.jensen.Model.Skill;
 
 public class QueryManager {
 
 	private Connection connection;
+	private Session session;
 	private DefaultTableModel model;
 	private String employeeId,fname,lname,skill,skillId,
 	roleId,locationId,location,town,role,registration_date;
+	private ArrayList<Employee> arraylist = new ArrayList<Employee>();
+	private List<Employee> employees;
 
 	private List<String> list = new LinkedList<String>(); 
 
-	public QueryManager(Connection connection, DefaultTableModel model){
+	public QueryManager(Connection connection, DefaultTableModel model, Session session){
 		this.connection = connection;
 		this.model = model;
+		this.session = session;
 		init();
 	}
 	private void init(){
@@ -33,118 +52,75 @@ public class QueryManager {
 		list.add("LocationId");
 		list.add("RegistrationDate");
 		list.add("Town");
-
 	}
 	/* Returns all Employees and places it into the JTableModel */
 	public void showAllEmployee() {
+
 		update();
-		PreparedStatement ps;
-		try {
-			ps = connection.prepareStatement("select * from employees");
-			ResultSet result = ps.executeQuery();
+		model.addRow(new Object[]{list.get(list.indexOf("EmployeeId")),
+				list.get(list.indexOf("Firstname")),
+				list.get(list.indexOf("Lastname")),
+				list.get(list.indexOf("Location")),
+				list.get(list.indexOf("Role")),
+				list.get(list.indexOf("RegistrationDate"))});
 
-			model.addRow(new Object[]{list.get(list.indexOf("EmployeeId")),
-					list.get(list.indexOf("Firstname")),
-					list.get(list.indexOf("Lastname")),
-					list.get(list.indexOf("Location")),
-					list.get(list.indexOf("Role")),
-					list.get(list.indexOf("RegistrationDate"))});
-
-			while(result.next())
-			{
-				employeeId = result.getString("employee_id");
-				fname = result.getString("first_name");
-				lname = result.getString("last_name");
-				location = result.getString("location"); 
-				role = result.getString("role");
-				registration_date = result.getString("registration_date");
-				model.addRow(new Object[]{employeeId, fname, lname, location, role, registration_date});
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		for(Employee employee : employees){
+			model.addRow(new Object[]{employee.getId(),employee.getFirstname(),employee.getLastname(),
+					employee.getLocation(),employee.getRole(),employee.getRegistrationDate()});
 		}
+
 	}
 	/* Returns all Employees with only employee_id and first_name and places it into the JTableModel */
 	public void getAllRowsOnlyName() {
 		update();
-		PreparedStatement ps;
-		try {
-			ps = connection.prepareStatement("SELECT employee_id, first_name FROM employees");
-			ResultSet result = ps.executeQuery();
 
-			model.addRow(new Object[]{
-					list.get(list.indexOf("EmployeeId")),
-					list.get(list.indexOf("Firstname"))});
-			while(result.next())
-			{
-				employeeId = result.getString("employee_id");
-				fname = result.getString("first_name");
-				model.addRow(new Object[]{employeeId, fname});
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		model.addRow(new Object[]{
+				list.get(list.indexOf("EmployeeId")),
+				list.get(list.indexOf("Firstname"))});
+
+		for(Employee employee : employees){
+			model.addRow(new Object[]{employee.getId(),employee.getFirstname()});
 		}
-
 	}
+
+
 	/* Inserts a new Employee into the Database */
-	public void insertInto(Employee employee, String skill) {
-		CallableStatement call;
-		try {
-			call = connection.prepareCall("{call insert_user( ?, ?, ?, ?, ?)}");
-			call.setInt(1, employee.getId());
-			call.setString(2, employee.getFirstname());
-			call.setString(3, employee.getLastname());
-			call.setInt(4, employee.getLocation());
-			call.setInt(5, employee.getRole());
-			call.executeQuery();
-			insertEmployeeAndSkill(employee,skill);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	public void insertEmployeeAndSkill(Employee employee, String skill){
-		String quary = "INSERT INTO employee_has_skills values ("+employee.getId()+","+Integer.parseInt(skill)+")";
-		try {
-			PreparedStatement preparedStmt = connection.prepareStatement(quary);
-			preparedStmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public void insertInto(Employee employee, Skill skill) {
+		session.beginTransaction();
+
+		Set<Skill> skills = new HashSet<Skill>();
+		skills.add(skill);
+
+		employee.setSkills(skills);
+		session.save(employee);
+		session.getTransaction().commit();
+
 	}
 	/* Removes a Employee from the Database */
 	public void deleteEmployee(String id) {
 		update();
-		String removeQuary = "DELETE FROM employee_has_skills WHERE employee ='" + Integer.parseInt(id) + "'";
-		String query = "DELETE FROM employees WHERE employee_id ='" + Integer.parseInt(id) + "'";
-		PreparedStatement state;
-		PreparedStatement preparedStmt;
+		session.beginTransaction();
 
-		try {
-			if (id.isEmpty() && id.contains(null)) {
-				System.out.println("Delete Employee not deleted");
-			}else{
-				state = connection.prepareStatement(removeQuary);
-				preparedStmt = connection.prepareStatement(query);
-				state.execute();
-				preparedStmt.execute();
-				//showAllEmployee();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Employee result = session.load(Employee.class, Integer.parseInt(id));
+		
+		session.delete(result);
+		session.getTransaction().commit();
+	
 
 	}
 	/* Updates a Employee from the Database */
 	public void updateEmployee(Employee employee) {
+
 		update();
-		String query = " UPDATE employees SET first_name='" + employee.getFirstname() + "' WHERE employee_id=" + employee.getId();
-		PreparedStatement preparedStmt;
-		try {
-			preparedStmt = connection.prepareStatement(query);
-			preparedStmt.execute();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+		session.beginTransaction();
+
+		Employee result = session.load(Employee.class, employee.getId());
+		result.setFirstname(employee.getFirstname());
+		session.update(result);
+
+		session.getTransaction().commit();
+
 	}
 	/* Generates a ID */
 	public int generateId() {
@@ -167,6 +143,11 @@ public class QueryManager {
 		while(model.getRowCount() > 0){
 			model.removeRow(0);
 		}
+
+		CriteriaQuery<Employee> result = session.getCriteriaBuilder().createQuery(Employee.class);
+		result.from(Employee.class);
+		employees = session.createQuery(result).getResultList();
+
 	}
 	/* Returns a Employee with the same name as the Input parameter and places it into the JTableModel */
 	public void getEmployeeByName(String input) {
@@ -174,7 +155,9 @@ public class QueryManager {
 		PreparedStatement ps;
 		try {
 			ps = connection.prepareStatement(
-					"" + "SELECT * FROM employees WHERE first_name LIKE '%" + input + "%' OR last_name LIKE '%" + input + "%'");
+					"" + "SELECT * FROM employees WHERE first_name LIKE '%" 
+							+ input + "%' OR last_name LIKE '%" + input + "%'");
+
 			ResultSet result = ps.executeQuery();
 
 			model.addRow(new Object[]{list.get(list.indexOf("EmployeeId")),
@@ -289,12 +272,12 @@ public class QueryManager {
 					"SELECT first_name, last_name, Skills.skill FROM employees JOIN skills INNER JOIN employee_has_skills ON employee_id=employee AND skill_id=employee_has_skills.skill WHERE skill_id="
 							+ input);
 			ResultSet result = ps.executeQuery();
-			
+
 			model.addRow(new Object[]{
 					list.get(list.indexOf("Firstname")),
 					list.get(list.indexOf("Lastname")),
 					list.get(list.indexOf("Skill"))});
-			
+
 			while (result.next()) {
 				fname = result.getString("first_name");
 				lname = result.getString("last_name");
@@ -312,7 +295,7 @@ public class QueryManager {
 		try {
 			state = connection.createStatement();
 			ResultSet result = state.executeQuery("SELECT * FROM skills");
-			
+
 			model.addRow(new Object[]{list.get(list.indexOf("SkillId")),
 					list.get(list.indexOf("Skill"))});
 
