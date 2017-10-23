@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
 
 	/* Currently Unused */
 	private void initDefaultGUI() {
-		this.setLayout(new GridLayout(0, 2));
+		this.setLayout(new GridLayout(2, 0));
 	}
 	
 	public void addPanel(JPanel panel, JPanel panel1) {

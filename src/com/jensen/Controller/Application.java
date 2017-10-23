@@ -15,6 +15,7 @@ public class Application {
 	private EmployeeManager employeeManager;
 	private ViewManager viewManager;
 	private QueryManager queryManager;
+	private RoleManager roleManager;
 
 
 	public Application() {

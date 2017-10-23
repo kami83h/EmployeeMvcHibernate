@@ -59,7 +59,7 @@ public class MainPanel implements Panel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		
-		this.panel.setPreferredSize(new Dimension(600, 500));
+		this.panel.setPreferredSize(new Dimension(1200, 400));
 		
 		for (int i = 0; i < buttonLeft.size(); i++) {
 			gbc.gridx = 0;

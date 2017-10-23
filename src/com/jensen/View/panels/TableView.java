@@ -28,7 +28,7 @@ public class TableView implements Panel {
 	private void init() {
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
-		this.panel.setPreferredSize(new Dimension(600, 300));
+		this.panel.setPreferredSize(new Dimension(1200, 200));
 		
 		model.setColumnIdentifiers(columnNamesAll);
 		

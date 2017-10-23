@@ -5,9 +5,15 @@ import javax.persistence.*;
 
 @Entity(name="skills")
 public class Skill {
-
+	
+	@Id
+	@Column(name="skill_id")
 	private int id;
+	
+	@Column(name="skill")
 	private String skill;
+	
+	@ManyToMany
 	private Set<Employee> employee = new HashSet<Employee>(0);
 
 	public Skill(int id){
@@ -15,22 +21,19 @@ public class Skill {
 		
 	}
 	public Skill(){}
-	@Id
-	@Column(name="skill_id")
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	@Column(name="skill")
 	public String getSkill() {
 		return skill;
 	}
 	public void setSkill(String skill) {
 		this.skill = skill;
 	}
-	@ManyToMany
 	public Set<Employee> getEmployee() {
 		return employee;
 	}

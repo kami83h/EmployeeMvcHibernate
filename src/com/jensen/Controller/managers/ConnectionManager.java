@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 
 import com.jensen.Model.Employee;
+import com.jensen.Model.Location;
+import com.jensen.Model.Role;
 import com.jensen.Model.Skill;
 
 public class ConnectionManager {
@@ -23,6 +25,8 @@ public class ConnectionManager {
 		this.session = new Configuration().configure()
 				.addAnnotatedClass(Employee.class)
 				.addAnnotatedClass(Skill.class)
+				.addAnnotatedClass(Role.class)
+				.addAnnotatedClass(Location.class)
 				.buildSessionFactory().openSession();
 
 

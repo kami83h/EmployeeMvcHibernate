@@ -7,27 +7,56 @@ import javax.persistence.*;
 @Entity(name="employees")
 public class Employee {
 	
+	@Id
+	@Column(name="employee_id")
 	private int id;
-	private String firstname, lastname;
-	private int role, location;
+	
+	@Column(name="first_name")
+	private String firstname;
+
+	@Column(name="last_name")
+	private String lastname;
+	
+	@Column(name="role")
+	private Integer roleId;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "role", insertable = false, updatable = false)
+	private Role role;
+	
+	@Column(name="location")
+	private Integer locationId;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "location", insertable = false, updatable = false)
+	private Location location;
+	
+	@Column(name="registration_date")
 	private Date registrationDate;
+	
+	@ManyToMany
+	@JoinTable(name="employee_has_skills",joinColumns ={
+			@JoinColumn(name="employee")},inverseJoinColumns = {
+					@JoinColumn(name="skill")})
 	private Set<Skill> skills = new HashSet<Skill>(0);
 	
 
-	public Employee(int id,String firstname, String lastname, int location, int role, Date registrationDate) {
+	public Employee(int id,String firstname, String lastname, int role, int location, Date registrationDate) {
+		
 		this.setId(id);
 		this.setFirstname(firstname);
 		this.setLastname(lastname);
-		this.setLocation(location);
-		this.setRole(role);
+		this.locationId = location;
+		this.roleId = role;
 		this.registrationDate = registrationDate;
 	}
-	public Employee(int id,String firstname, String lastname, int location, int role) {
+
+	public Employee(int id,String firstname, String lastname, int role,int location) {
 		this.setId(id);
 		this.setFirstname(firstname);
 		this.setLastname(lastname);
-		this.setLocation(location);
-		this.setRole(role);
+		this.roleId = role;
+		this.locationId = location;
 	}
 
 	public Employee(int id,String firstname) {
@@ -37,9 +66,10 @@ public class Employee {
 	public Employee(int id) {
 		this.setId(id);
 	}
-	public Employee(){}
-	@Id
-	@Column(name="employee_id")
+	public Employee(){
+		
+	}
+
 	public int getId() {
 		return this.id;
 	}
@@ -47,7 +77,13 @@ public class Employee {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@Column(name="first_name")
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+	
 	public String getFirstname() {
 		return firstname;
 	}
@@ -55,7 +91,7 @@ public class Employee {
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-	@Column(name="last_name")
+	
 	public String getLastname() {
 		return this.lastname;
 	}
@@ -63,26 +99,23 @@ public class Employee {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-	@Column(name="role")
-	public int getRole() {
+
+	public Role getRole() {
 		return this.role;
 	}
 
-	public void setRole(int role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
-	@Column(name="location")
-	public int getLocation() {
+
+	public Location getLocation() {
 		return this.location;
 	}
 
-	public void setLocation(int location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
-	@ManyToMany
-	@JoinTable(name="employee_has_skills",joinColumns ={
-			@JoinColumn(name="employee")},inverseJoinColumns = {
-					@JoinColumn(name="skill")})
+	
 	public Set<Skill> getSkills() {
 		return skills;
 	}
@@ -90,13 +123,20 @@ public class Employee {
 	public void setSkills(Set<Skill> skills) {
 		this.skills = skills;
 	}
-	@Column(name="registration_date")
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
 
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
+	}
+	
+	public Integer getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
 	}
 
 }
