@@ -26,10 +26,8 @@ public class Skill {
 
 	public Skill(int id){
 		this.id = id;
-		
 	}
 	public Skill(){
-		
 	}
 	
 	public int getId() {
