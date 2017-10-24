@@ -6,7 +6,7 @@ import javax.persistence.*;
  * 
  * This Class makes sure that application runs
  * 
- * @author Kami Hassanzadeh
+ * @author Kami  Hassanzadeh
  * @author Gustav Malm
  *
  */
