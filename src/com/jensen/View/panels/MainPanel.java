@@ -5,7 +5,14 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 public class MainPanel implements Panel {
 
 	private JPanel panel;
@@ -59,7 +66,7 @@ public class MainPanel implements Panel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		
-		this.panel.setPreferredSize(new Dimension(1200, 400));
+		this.panel.setPreferredSize(new Dimension(650, 400));
 		
 		for (int i = 0; i < buttonLeft.size(); i++) {
 			gbc.gridx = 0;

@@ -3,7 +3,14 @@ package com.jensen.Controller.managers;
 import java.util.*;
 
 import com.jensen.Model.Role;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 public class RoleManager {
 
 	private List<Role> roles = new LinkedList<Role>();

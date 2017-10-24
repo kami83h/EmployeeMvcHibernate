@@ -8,7 +8,14 @@ import javax.swing.table.DefaultTableModel;
 import com.jensen.View.MainWindow;
 import com.jensen.View.panels.MainPanel;
 import com.jensen.View.panels.TableView;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 public class ViewManager {
 
 	private MainWindow window;

@@ -8,14 +8,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 public class TableView implements Panel {
 	
 	private JPanel panel;
 	private static JTable table = new JTable();
 	private DefaultTableModel model = new DefaultTableModel();
 	private JScrollPane scroll = new JScrollPane(); 
-	private String [] columnNamesAll = {"", "", "", "", "", ""};
 
 	public TableView(){
 		init();
@@ -28,9 +34,7 @@ public class TableView implements Panel {
 	private void init() {
 		this.panel = new JPanel();
 		this.panel.setLayout(new BorderLayout());
-		this.panel.setPreferredSize(new Dimension(1200, 200));
-		
-		model.setColumnIdentifiers(columnNamesAll);
+		this.panel.setPreferredSize(new Dimension(650, 200));
 		
 		table.setModel(model); 
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);

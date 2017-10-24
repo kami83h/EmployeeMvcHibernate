@@ -9,7 +9,14 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 @Entity(name="roles")
 public class Role {
 	

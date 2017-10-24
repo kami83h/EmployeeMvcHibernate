@@ -3,7 +3,14 @@ package com.jensen.View;
 import java.awt.GridLayout;
 
 import javax.swing.*;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 /* Class MainWindow */
 public class MainWindow extends JFrame {
 	

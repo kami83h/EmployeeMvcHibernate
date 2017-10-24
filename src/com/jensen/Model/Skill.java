@@ -2,11 +2,19 @@ package com.jensen.Model;
 
 import java.util.*;
 import javax.persistence.*;
-
+/**
+ * 
+ * This Class makes sure that application runs
+ * 
+ * @author Kami Hassanzadeh
+ * @author Gustav Malm
+ *
+ */
 @Entity(name="skills")
 public class Skill {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="skill_id")
 	private int id;
 	
@@ -20,7 +28,9 @@ public class Skill {
 		this.id = id;
 		
 	}
-	public Skill(){}
+	public Skill(){
+		
+	}
 	
 	public int getId() {
 		return id;
