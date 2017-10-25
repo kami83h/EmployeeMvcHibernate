@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import com.jensen.Model.Employee;
 /**
  * 
- * This Class manages the employee object
+ * This Class manages the Employee objects 
  * 
  * @author Kami Hassanzadeh
  * @author Gustav Malm
@@ -12,24 +12,25 @@ import com.jensen.Model.Employee;
  */
 public class EmployeeManager{
 
-	private static final long serialVersionUID = 1L;
-
 	private QueryManager queryManager;
 
 	/**
 	 * 
-	 * @param queryManager init a querymanager
+	 * @param queryManager This Constructor takes in a Object of the QueryManager Class 
+	 * as a Parameter.
+	 * 
 	 */
 	public EmployeeManager(QueryManager queryManager) {
 		this.queryManager = queryManager;
 	}
 	/**
-	 * Create new Employee
-	 * @param fname This is going to be this object FirstName
-	 * @param lname This is going to be this object LastName
-	 * @param role This is going to be this object Role
-	 * @param location This is going to be this object Location
-	 * @param skill This is going to be this object Skill
+	 * This Method is creating a new Employee-Object with the data received from the Parameters.
+	 * 
+	 * @param fname This parameter value is going to set this Object's FirstName
+	 * @param lname This parameter value is going to set this Object's LastName
+	 * @param role This parameter value is going to set this Object's Role
+	 * @param location This parameter value is going to set this Object's Location
+	 * @param skill This parameter value is going to set this Object's Skill
 	 */
 	public void addEmployee(String fname, String lname, String role, String location, String skill) {
 
@@ -37,7 +38,6 @@ public class EmployeeManager{
 			JOptionPane.showMessageDialog(null, "Number is not allowed, try again.");
 		} 
 		else {
-
 			Employee employee = new Employee( fname, lname,
 					Integer.parseInt(location),Integer.parseInt(role));
 			this.queryManager.insertInto(employee,skill);
@@ -45,8 +45,10 @@ public class EmployeeManager{
 		}
 	}
 	/**
+	 * This Method is removing a Employee-Object with the help of the parameter id.
 	 * 
-	 * @param id remove employee from database
+	 * @param id This parameter is used to find and remove a specific Employee by ID 
+	 * from list of Employees and the Database by passing the value through to the Query Manager.
 	 */
 	public void deleteEmployee(String id) {
 
@@ -58,8 +60,11 @@ public class EmployeeManager{
 		}
 	}
 	/**
-	 * @param id find the specific id from input
-	 * @param fn change the firstname
+	 * This Method is being used whenever a user wants to update a certain Employee-Object
+	 * 
+	 * @param id This parameter is used to find and update a specific Employee by ID from list of 
+	 * Employees and the Database by passing the value through to the Query Manager
+	 * @param fn This parameter is used to change the First Name of a selected Employee
 	 */
 	public void updateEmployee(String id, String fn) {
 

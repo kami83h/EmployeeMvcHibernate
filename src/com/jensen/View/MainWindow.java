@@ -14,12 +14,13 @@ import javax.swing.*;
 /* Class MainWindow */
 public class MainWindow extends JFrame {
 	
+	private static final long serialVersionUID = -535055836621390505L;
 	/**
+	 * Creates a simple Window which acts as a Main Frame for the Application. 
+	 * Takes a String as a Parameter
 	 * 
+	 * @param title Used to set this MainWindow Object's Title
 	 */
-	private static final long serialVersionUID = 1L;
-
-	/* Creates a simple Window which acts as a Main Frame for the Application. Takes a String as a Parameter */
 	public MainWindow(String title) {
 		this.setTitle(title);
 		init();
@@ -28,12 +29,16 @@ public class MainWindow extends JFrame {
 	private void init() {
 		initDefaultGUI();
 	}
-
-	/* Currently Unused */
+	
 	private void initDefaultGUI() {
 		this.setLayout(new GridLayout(2, 0));
 	}
-	
+	/**
+	 * This Method is being used to add two JPanels to the MainWindow Object
+	 * 
+	 * @param upperPanel Used to add a JPanel to the upper Side of a MainPanel Object [Grid]
+	 * @param lowerPanel Used to add a JPanel to the lower Side of a MainPanel Object [Grid]
+	 */
 	public void addPanel(JPanel panel, JPanel panel1) {
 		this.add(panel);
 		this.add(panel1);
@@ -43,12 +48,16 @@ public class MainWindow extends JFrame {
 		this.pack();
 		//this.setLocationRelativeTo(null);
 	}
-
-	/* Updates the Frame - Currently Unused */
+	/**
+	 * This Method is being called whenever the Application needs to Update the MainWindow Object
+	 */
 	public void update() {
 		
 	}
-	/* Disposes the JFrame */
+	/**
+	 * This Method is being used whenever the Application needs to close and 
+	 * dispose the MainWindow Object [Usually when terminating the Application]
+	 */
 	public void close() {
 		this.setVisible(false); 
 		this.dispose();	

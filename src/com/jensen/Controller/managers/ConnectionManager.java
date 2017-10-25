@@ -24,13 +24,13 @@ public class ConnectionManager {
 	private Session session;
 
 	/**
-	 * this constroctor run init
+	 * This Constructor calls for a init() method to set up the required Session.
 	 */
 	public ConnectionManager() {
 		init();
 	}
 	/**
-	 * init a hiberbatesession
+	 * Initializes and builds the Hibernate-Orm Database Connection Session.
 	 */
 	public void init() {
 		this.session = new Configuration().configure()
@@ -42,7 +42,7 @@ public class ConnectionManager {
 	}
 	/**
 	 * 
-	 * @return this object session
+	 * @return Returns this instance of this Object's Session.
 	 */
 	public Session getSession(){
 		return this.session;
